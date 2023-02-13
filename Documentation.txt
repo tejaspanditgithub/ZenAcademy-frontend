@@ -1,0 +1,34 @@
+Documentation
+
+Name of Project : Learning Portal                                                                                      
+Name of Group : The Boys                                                                                                        
+Team Members : 
+    Tejas Pandit
+    Yash Wakte
+    Vedant Deshmukh
+    Yashveer Singh
+    Vivek Pawde
+    Yuvraj Tambe
+
+---------------------------------------------------------------------------------------
+
+    Technologies used :
+        1.ReactJS
+        2.NodeJS
+        3.MongoDB
+        4.ExpressJS
+        5.Material UI / Bootstrap
+        6.Axios(For Routing)
+        7.JWT
+
+----------------------------------------------------------------------------------------
+
+    software required
+
+        1.VS code editor
+        2.Node
+        3.mongoDB compass
+        
+
+-----------------------------------------------------------------------------------------
+
