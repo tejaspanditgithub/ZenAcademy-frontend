@@ -26,11 +26,24 @@ export default function Sgocard() {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="Small" style={{ color: 'black'}}>
+                    <Button size="Small" style={{ color: 'black' }} onClick={() => console.log('Bookmarked')}>
                         <BookmarkAddIcon />
+                        
                     </Button>
                     
-                    <Button size="small" style={{ color: 'white', fontWeight: 'bold', marginLeft: '60%', border: "1px solid white", backgroundColor:'#212E52'}}>Enroll</Button>
+                    <Button size="small" 
+                        onClick={() => console.log('Enrolled')}
+                    style={{ 
+                        color: 'white', 
+                        fontWeight: 'bold', 
+                        marginLeft: '60%', 
+                        border: "1px solid white", 
+                        backgroundColor:'#212E52',
+                       
+                        }}>
+                            Enroll
+                            
+                        </Button>
                     
 
                 </CardActions>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { styled, useTheme, alpha } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -11,8 +11,6 @@ import Divider from '@mui/material/Divider';
 import { Tooltip } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -29,8 +27,6 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-
-
 
 const drawerWidth = 200;
 
@@ -75,7 +71,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
-
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -145,23 +140,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function Sidebar() {
-    const theme = useTheme();
+
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
     const handleDrawerClose = () => {
-        setOpen(false);
-    };
+        setOpen(false)
+    }
 
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const handleProfileMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
+    const handleMenuClose = () => setAnchorEl(null);
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -183,12 +173,10 @@ export default function Sidebar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem component={Link} to="/user/profile" onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
         </Menu>
     );
-
-
 
     return (
         <Box sx={{
@@ -208,6 +196,7 @@ export default function Sidebar() {
                     >
                         <MenuIcon />
                     </IconButton>
+
                     <Typography variant="h6" noWrap component="div">
                         ZenAcademy
                     </Typography>
@@ -256,14 +245,10 @@ export default function Sidebar() {
 
 
             <Drawer variant="permanent" open={open} >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </DrawerHeader>
+                <DrawerHeader />
                 <Divider />
 
-                <List sx={{fontStyle:'arial'}}>
+                <List sx={{ fontStyle: 'arial' }} onClick={handleDrawerClose}>
                     <Link to="/user/dashboard" style={{ textDecoration: "none", color: "black" }}>
                         <ListItem disablePadding sx={{ display: "block" }}>
                             <ListItemButton
@@ -291,7 +276,6 @@ export default function Sidebar() {
                             </ListItemButton>
                         </ListItem>
                     </Link >
-
                     <Link to="/user/mylearning" style={{ textDecoration: "none", color: "black" }}>
                         <ListItem disablePadding sx={{ display: "block" }}>
                             <ListItemButton
@@ -319,7 +303,6 @@ export default function Sidebar() {
                             </ListItemButton>
                         </ListItem>
                     </Link >
-
                     <Link to="/user/mycourse" style={{ textDecoration: "none", color: "black" }}>
                         <ListItem disablePadding sx={{ display: "block" }}>
                             <ListItemButton
@@ -401,10 +384,6 @@ export default function Sidebar() {
                             </ListItemButton>
                         </ListItem>
                     </Link >
-
-
-
-
                 </List>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 3, p: 1 }}>
