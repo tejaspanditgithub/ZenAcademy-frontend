@@ -2,17 +2,16 @@ import React from "react";
 import {
     Chart as ChartJS,
     CategoryScale,
-    LinearScale,
     BarElement,
     Title,
     Tooltip,
     Legend,
 } from "chart.js";
-import { Bar, Chart } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import { Box } from "@mui/material";
 
 ChartJS.register(
     CategoryScale,
-    LinearScale,
     BarElement,
     Title,
     Tooltip,
@@ -48,11 +47,11 @@ function BarChart() {
         }]
     };
     return (
-        <>
+        <Box>
             <div style={{ width: "90%", marginTop: '15%' }}>
                 <Bar data={data} style={{ fontSize: '100px' }} />
             </div>
-        </>
+        </Box>
     );
 }
 

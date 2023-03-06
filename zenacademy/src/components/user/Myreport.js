@@ -8,7 +8,7 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import { Bar, Chart } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { Box } from "@mui/material";
 
 ChartJS.register(
@@ -49,14 +49,14 @@ function Myreport() {
         }]
     };
     return (
-        <>
+        <Box sx={{ ml: '5%' }}>
             <h2 style={{ padding: '8px', marginTop: '10px', color: "#2C3333", fontSize: "30Px", textAlign: "center" }}>
                 My Reports
             </h2>
             <Box style={{ width: "50%", marginTop: '5%',marginLeft: '20%', padding: '8px', itemAlign: "center" }}>
                 <Bar data={data} style={{ fontSize: '100px' }} />
             </Box>
-        </>
+        </Box>
     );
 }
 
