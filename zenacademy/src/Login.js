@@ -1,4 +1,4 @@
-import * as React from 'react';
+// import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,17 +12,65 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useData from './hooks/useData';
+import React,{useState,useEffect} from 'react';
+import {useNavigate,useLocation} from 'react-router-dom';
+import axios from './api/axios';
+
 
 const theme = createTheme();
 
+const defaultLogin={
+    userName:"",
+    password:""
+  }
+
 export default function Login() {
-    const handleSubmit = (event) => {
+    const {setAuth,err,setErr}=useData();
+  const [login,setLogin]=useState(defaultLogin);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromForEmployee = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    setErr('');
+  }, [login,setErr])
+
+  
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        // console.log(login);
+        if(!login.userName || !login.password){
+            setErr('please provide both the both the fields');
+            return;
+          }
+          
+          try {
+            const response = await axios.post('/user/login',
+                JSON.stringify(login),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            // console.log(response)
+            const accessToken = response?.data?.accessToken;
+            const userRoll = response?.data?.userRoll;
+            setAuth({ userRoll, accessToken });
+            
+            setLogin(defaultLogin);
+            userRoll==='employee'?navigate(fromForEmployee):navigate("/");
+      
+          }catch (err) {
+            if (!err?.response?.data) {
+              setErr('No Server Response');
+            } else if (err.response?.status === 400) {
+              setErr(err.response.data.data);
+            }else {
+              setErr('Login Failed');
+            }
+          }
     };
 
     
@@ -49,10 +97,11 @@ export default function Login() {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
+                            id="userName"
+                            label="User Name"
+                            name="userName"
+                            value={login.userName}
+                            onChange={(e)=>setLogin({...login,userName:e.target.value})}
                             autoFocus
                         />
                         <TextField
@@ -63,7 +112,8 @@ export default function Login() {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
+                            value={login.password}
+                            onChange={(e) => setLogin({...login,password:e.target.value})}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
