@@ -31,7 +31,10 @@ export default function Login() {
   
   const navigate = useNavigate();
   const location = useLocation();
-  const fromForEmployee = location.state?.from?.pathname || "/";
+  const fromForEmployee = location.state?.from?.pathname || "/employee";
+  const fromForAdmin = location.state?.from?.pathname || "/admin";
+  const fromForLd=location.state?.from?.pathname || "/l&d";
+  const fromForSgo=location.state?.from?.pathname || "/sgo";
 
   useEffect(() => {
     setErr('');
@@ -40,7 +43,7 @@ export default function Login() {
   
     const handleSubmit = async(event) => {
         event.preventDefault();
-        // console.log(login);
+        console.log(login);
         if(!login.userName || !login.password){
             setErr('please provide both the both the fields');
             return;
@@ -54,13 +57,23 @@ export default function Login() {
                     withCredentials: true
                 }
             );
-            // console.log(response)
+            console.log(response)
             const accessToken = response?.data?.accessToken;
             const userRoll = response?.data?.userRoll;
             setAuth({ userRoll, accessToken });
             
             setLogin(defaultLogin);
-            userRoll==='employee'?navigate(fromForEmployee):navigate("/");
+            // userRoll==='employee'?navigate(fromForEmployee):navigate("/");
+            if(userRoll==='employee')
+            navigate(fromForEmployee)
+            else if(userRoll==='admin')
+            navigate(fromForAdmin)
+            else if(userRoll==='l&d')
+            navigate(fromForLd)
+            else if(userRoll==='sgo')
+            navigate(fromForSgo)
+            else
+            navigate("/")
       
           }catch (err) {
             if (!err?.response?.data) {
