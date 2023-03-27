@@ -5,6 +5,9 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 
 
 export default function Sgocard() {
+
+    
+
     return (
         <Box width='365px' topmargin='20px' padding='2px'  >
             <Card>

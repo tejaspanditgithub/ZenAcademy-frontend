@@ -26,56 +26,22 @@ import SchoolIcon from '@mui/icons-material/School';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import PersonIcon from '@mui/icons-material/Person';
+import Person from '@mui/icons-material/Person';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MenuBook from '@mui/icons-material/MenuBook';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate, useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { axiosUserPrivate } from "../api/axios";
-import useData from "../hooks/useData"
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { axiosUserPrivate } from "../../api/axios";
+import useData from "../../hooks/useData"
 
 const drawerWidth = 200;
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
-    },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
-    },
-}));
+
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -144,18 +110,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function Sidebar() {
-
+export default function SgoSidebar() {
+    
+    const { auth, setAuth } = useData();
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const axiosPrivate = useAxiosPrivate(axiosUserPrivate);
     const navigate = useNavigate();
-    const { auth, setAuth } = useData();
-    
+
     const handleDrawerClose = () => {
         setOpen(false)
     }
+
     const handleLogOut = async () => {
         try {
           const response = await axiosPrivate.get("/user/logout");
@@ -175,8 +142,8 @@ export default function Sidebar() {
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: 'bottom',
+                horizontal: 'center',
                 marginTop: '10px',
             }}
             id={menuId}
@@ -258,7 +225,7 @@ export default function Sidebar() {
                 <Divider />
 
                 <List sx={{ fontStyle: 'arial' }} onClick={handleDrawerClose}>
-                    <Link to="/employee" style={{ textDecoration: "none", color: "black" }}>
+                    <Link to="/sgo" style={{ textDecoration: "none", color: "black" }}>
                         <ListItem disablePadding sx={{ display: "block" }}>
                             <ListItemButton
                                 sx={{
@@ -285,114 +252,8 @@ export default function Sidebar() {
                             </ListItemButton>
                         </ListItem>
                     </Link >
-                    <Link to="/employee/mylearning" style={{ textDecoration: "none", color: "black" }}>
-                        <ListItem disablePadding sx={{ display: "block" }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? "initial" : "center",
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : "auto",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <Tooltip title="My Learning">
-                                        <LocalLibraryIcon />
-                                    </Tooltip>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="My Learning"
-                                    sx={{ opacity: open ? 1 : 0 }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link >
-                    <Link to="/employee/courses" style={{ textDecoration: "none", color: "black" }}>
-                        <ListItem disablePadding sx={{ display: "block" }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? "initial" : "center",
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : "auto",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <Tooltip title="Courses">
-                                        <SchoolIcon />
-                                    </Tooltip>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="Courses"
-                                    sx={{ opacity: open ? 1 : 0 }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link >
-                    <Link to="/employee/bookmark" style={{ textDecoration: "none", color: "black" }}>
-                        <ListItem disablePadding sx={{ display: "block" }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? "initial" : "center",
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : "auto",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <Tooltip title="My Bookmarks">
-                                        <BookmarksIcon />
-                                    </Tooltip>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="My Bookmarks"
-                                    sx={{ opacity: open ? 1 : 0 }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link >
-                    <Link to="/employee/report" style={{ textDecoration: "none", color: "black" }}>
-                        <ListItem disablePadding sx={{ display: "block" }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? "initial" : "center",
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : "auto",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    <Tooltip title="My Reports">
-                                        <AssessmentIcon />
-                                    </Tooltip>
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="My Reports"
-                                    sx={{ opacity: open ? 1 : 0 }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    </Link >
+                    
+                    
                     <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
                         <ListItem disablePadding sx={{ display: "block" }} onClick={handleLogOut}>
                             <ListItemButton
@@ -420,6 +281,7 @@ export default function Sidebar() {
                             </ListItemButton>
                         </ListItem>
                     </Link >
+                    
                 </List>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 3, p: 1 }}>

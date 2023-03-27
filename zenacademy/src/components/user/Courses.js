@@ -5,15 +5,19 @@ import Sgocard from '../course/Sgocard'
 import CourseCard from '../user/CourseCard'
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useData from "../../hooks/useData";
-import { axiosUserPrivate } from "../../api/axios";
+import { axiosCoursePrivate } from "../../api/axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import { IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 export default function Dashboard() {
 
     const { courses, setCourses } = useData();
     const [searchResults, setSearchResults] = React.useState([]);
-    const axiosPrivate = useAxiosPrivate(axiosUserPrivate);
+    const axiosPrivate = useAxiosPrivate(axiosCoursePrivate);
     const [details, setDetails] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -25,10 +29,9 @@ export default function Dashboard() {
 
     React.useEffect(()=>{
         let isMounted = true;
-        console.log("hi learning")
     const getCourses = async () => {
       try {
-        const response = await axiosPrivate.get("/user/assignedCourses");
+        const response = await axiosPrivate.get("/course");
         if (response?.data?.success) {
           isMounted && setCourses(response?.data?.data);
           setSearchResults(response?.data?.data);
@@ -45,12 +48,65 @@ export default function Dashboard() {
     };
     }, [axiosPrivate, setCourses, navigate, location,flag])
 
+    const handleSearchChange = (e) => {
+      if (!e.target.value) return setSearchResults(courses);
+      const resultsArray = courses.filter(
+        (course) =>
+          course.courseName
+            .toString()
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase())
+      );
+      setSearchResults(resultsArray);
+    };
+
+    const ListPage = ({ searchResults }) => {
+      const result = searchResults.map((result) => result);
+      if (result?.length) {
+        const content = result.map((result) => result);
+        return <main>{content}</main>;
+      } else {
+        return (
+          <article>
+            <p>No Matching name</p>
+          </article>
+        );
+      }
+    };
+
+
 
     return (
+      <>
+      
         <Box sx={{ ml: '6%' }}>
-            <h2 style={{ padding: '8px', marginTop: '10px', color: "#2C3333", fontSize: "30Px", textAlign: "center" }}>
-                My Learning
+            <h2 style={{ padding: '8px', color: "#2C3333", fontSize: "30Px", textAlign: "center" }}>
+                  Courses
             </h2>
+    {ListPage}
+
+            <TextField
+          id="search"
+          label="Search"
+          type="text"
+          name="Search"
+          style={{marginLeft:"40%"}}
+          placeholder="search by Course-Name"
+          onChange={handleSearchChange}
+          InputProps={{
+              endAdornment: (
+                  <InputAdornment id="magni" position="end">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+          required
+          />
+
+
             <Box>
                 <Grid container
                     spacing={4}
@@ -60,8 +116,10 @@ export default function Dashboard() {
                         // ml: '45px',
 
                     }}
+                    style={{marginTop:"10px"}}
+
                 >
-                    {courses.map(course => (
+                    {searchResults.map(course => (
             <CourseCard key={course._id} course={course} />
           ))}
 
@@ -78,5 +136,6 @@ export default function Dashboard() {
                 </Grid>
             </Box>
         </Box>
+      </>
     )
 }

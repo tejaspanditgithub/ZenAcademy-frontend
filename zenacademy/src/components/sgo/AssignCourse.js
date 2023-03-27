@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import "../../index.css";
@@ -16,7 +16,7 @@ import { Container } from "@mui/system";
 import useData from "../../hooks/useData";
 import { axiosUserPrivate } from "../../api/axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
@@ -27,6 +27,8 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import { Tooltip } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const style = {
     position: "absolute",
@@ -39,30 +41,35 @@ const style = {
     p: 4,
   };
 
+  const defaultAssign={
+    userID:"",
+    assignedCourses:""
+  }
 
-const User=()=>{
-    const { users, setUsers } = useData();
+
+const Course=()=>{
+    const { courses, setCourses } = useData();
+    const [assigned,setAssigned]=React.useState(defaultAssign)
     const [searchResults, setSearchResults] = React.useState([]);
     const axiosPrivate = useAxiosPrivate(axiosUserPrivate);
     const [details, setDetails] = React.useState([]);
     const [open, setOpen] = React.useState(false);
+    const [sopen,setSOpen]=React.useState(false);
     const navigate = useNavigate();
     const location=useLocation();
     const [yes,setYes]=React.useState()
     const [modalOpen, setModalOpen] = React.useState(false);
     const [flag, setFlag] = React.useState(true);
     
-
+    const {id}=useParams();
 
     const handleOpen = () =>{
-        // console.log(user.username);
         setOpen(true);
       } 
       
   const handleClose = () => setOpen(false);
 
   const handleModalOpen = () =>{
-    // console.log(user.userName);
     setModalOpen(true);
 
   }   
@@ -70,13 +77,20 @@ const User=()=>{
     setModalOpen(false);
   }
 
+  const handleSClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSOpen(false);
+  };
+
     React.useEffect(()=>{
         let isMounted = true;
-    const getUsers = async () => {
+    const getCourses = async () => {
       try {
-        const response = await axiosPrivate.get("/user/users");
+        const response = await axiosPrivate.get("/user/sgoCourse");
         if (response?.data?.success) {
-          isMounted && setUsers(response?.data?.data);
+          isMounted && setCourses(response?.data?.data);
           setSearchResults(response?.data?.data);
           console.log(response.data.data);
         }
@@ -85,16 +99,16 @@ const User=()=>{
         console.log(error)
       }
     };
-    getUsers();
+    getCourses();
     return () => {
       isMounted = false;
     };
-    }, [axiosPrivate, setUsers, navigate, location,flag])
+    }, [axiosPrivate, setCourses, navigate, location,flag])
 
-    const deleteUser = async (id) => {
+    const deleteCourse = async (id) => {
         try {
           console.log(id);
-          const response = await axiosPrivate.delete(`/user/${id}`);
+          const response = await axiosPrivate.delete(`/course/${id}`);
           if (response?.data?.success) {
             setFlag((prev) => !prev);
             handleModalClose();
@@ -112,15 +126,11 @@ const User=()=>{
 
     
   const handleSearchChange = (e) => {
-    if (!e.target.value) return setSearchResults(users);
+    if (!e.target.value) return setSearchResults(courses);
 
-    const resultsArray = users.filter(
-      (user) =>
-        user.userName
-          .toString()
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase()) ||
-        user.name
+    const resultsArray = courses.filter(
+      (course) =>
+        course.courseName
           .toString()
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
@@ -145,9 +155,9 @@ const User=()=>{
 
   const getDetails=async(id)=>{
     try {
-        const currUser = users.find((user) => user._id === id);
+        const currCourse = courses.find((course) => course._id === id);
   
-        setDetails(currUser);
+        setDetails(currCourse);
   
         handleOpen();
       } catch (error) {
@@ -158,32 +168,52 @@ const User=()=>{
     setYes(id)
     handleModalOpen()
 }
+
+
+const Assign=async(cid)=>{
+  console.log(id,cid)
+  const assigned1={
+    userID:id,
+    assignedCourses:cid
+  }
+  console.log(assigned1)
+  setAssigned(assigned1)
+  console.log(assigned)
+  try{
+    const response=await axiosPrivate.put(`/user/assignCourse`, JSON.stringify(assigned))
+    console.log(response)
+    if(response.data.success){
+      navigate('/sgo');
+      setOpen(true);
+    }
+    else if(response.status===209){
+      setSOpen(true)
+    }
+  }
+  catch(err){
+    console.log(err.message)
+  }
   
+}
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
     return<>
     {ListPage}
       <h3 style={{ color: "#2C3333", fontSize: "25Px", textAlign: "center" }}>
-        User List
+        Course List
       </h3>
 
-    <Box id="box">
-        <Button
-          variant="contained"
-          id="btn"
-          style={{marginLeft:"10%"}}
-          endIcon={<AddCircleRoundedIcon />}
-          onClick={()=>{navigate('register')}}
-        >
-          Add User
-        </Button>
+    <Box id="box" >
+        
         <TextField
           id="search"
           label="Search"
           type="text"
           name="Search"
-          autoFocus
           style={{marginLeft:"40%"}}
-          placeholder="search by userName or Name"
+          placeholder="search by name or skills"
           onChange={handleSearchChange}
           InputProps={{
             endAdornment: (
@@ -199,7 +229,7 @@ const User=()=>{
         />
       </Box>
     
-      <Container id="container" style={{ maxWidth: "lg", marginTop: "10px" ,marginBottom:'3%'}}>
+      <Container id="container" style={{ maxWidth: "lg", marginTop: "10px" ,marginBottom:'3%', marginLeft:"5%"}}>
         <Paper elevation={12}>
           <TableContainer component={Paper}>
             <Table
@@ -210,57 +240,31 @@ const User=()=>{
             >
               <TableHead style={{ backgroundColor: "#EEEEEE" }}>
                 <TableRow>
-                  <TableCell>User Name</TableCell>
-
-                  <TableCell align="left">Name</TableCell>
-                  <TableCell align="right">Email</TableCell>
-                  <TableCell align="right">Role</TableCell>
+                  <TableCell>Course Name</TableCell>
                   <TableCell align="right">SGO</TableCell>
-                  <TableCell align="right">Action</TableCell>
+                  <TableCell align="right">Assign</TableCell>
                   <TableCell align="right">View Details</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {searchResults.map((user) => (
+                {searchResults.map((course) => (
                   <TableRow
                     className="table"
-                    key={user._id}
+                    key={course._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row" className="User">
-                      <a>{user.userName}</a>
+                      <a>{course.CourseName}</a>
                     </TableCell>
 
-                    <TableCell align="left">{user.name.charAt(0).toUpperCase()+user.name.slice(1)}</TableCell>
-                    <TableCell align="right">{user.email}</TableCell>
-                    <TableCell align="right" className="Userrole">
-                      {user.userRoll.charAt(0).toUpperCase()+user.userRoll.slice(1)}
-                    </TableCell>
-                    <TableCell align="right">{user.sgo.toUpperCase()}</TableCell>
+                    <TableCell align="left">{course.courseName}</TableCell>
+                    
+                    <TableCell align="left">{course.sgo}</TableCell>
 
-                    <TableCell align="right">
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => navigate(`/admin/user/edit/${user._id}`)}
-                      >
-                        <EditIcon
-                          style={{
-                            color: "rgb(70 67 229 / 54%)",
-                            padding: "0",
-                          }}
-                        />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={()=>handleDelete(user._id)}
-                      >
-                        <DeleteIcon style={{ color: "red", padding: "0" }} />
-                      </IconButton>
-                 
-                    </TableCell>
+                    <TableCell align="left"><Button variant="contained" onClick={()=>Assign(course._id)}>ASSIGN</Button></TableCell>
                     <TableCell align="center">
                       <Tooltip title="View Details">
-                        <IconButton onClick={() => getDetails(user._id)}>
+                        <IconButton onClick={() => getDetails(course._id)}>
                           <VisibilityIcon style={{ padding: "0" }} />
                         </IconButton>
                       </Tooltip>
@@ -290,20 +294,13 @@ const User=()=>{
           </Typography>
           <CardContent>
             <Typography sx={{ mb: 1 }} color="text.secondary" gutterBottom>
-            <span style={{ fontWeight: "bold" }}> Name: </span>{details.name}
+            <span style={{ fontWeight: "bold" }}> Course-Name: </span>{details.courseName}
             </Typography>
             <Typography sx={{ mb: 1 }} color="text.secondary" gutterBottom>
-            <span style={{ fontWeight: "bold" }}> UserName: </span>{details.userName}
+            <span style={{ fontWeight: "bold" }}> SGO: </span>{details.sgo}
             </Typography>
             <Typography sx={{ mb: 1 }} color="text.secondary">
-            <span style={{ fontWeight: "bold" }}> Email: </span>{details.email }
-            </Typography>
-
-            <Typography sx={{ mb: 1 }} color="text.secondary">
-            <span style={{ fontWeight: "bold" }}> Role: </span>{details.userRoll}
-            </Typography>
-            <Typography sx={{ mb: 1 }} color="text.secondary">
-            <span style={{ fontWeight: "bold" }}>SGO:</span> {details.sgo}
+            <span style={{ fontWeight: "bold" }}> Description: </span>{details.description }
             </Typography>
           </CardContent>
           <CardActions>
@@ -338,7 +335,7 @@ const User=()=>{
                         <Button
                           startIcon={<DeleteIcon />}
                           style={{ color: "red" }}
-                          onClick={()=>deleteUser(yes)}
+                          onClick={()=>deleteCourse(yes)}
                         >
                           Delete
                         </Button>
@@ -350,7 +347,20 @@ const User=()=>{
                         </Button>
                       </Box>
                     </Modal>
+        <Stack>
+                    <Snackbar open={sopen} autoHideDuration={6000} onClose={handleSClose}>
+          <Alert onClose={handleSClose} severity="error" sx={{ width: '100%' }}>
+            Already Assigned!!!
+          </Alert>
+        </Snackbar>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Assigned!!!
+          </Alert>
+        </Snackbar>
+
+        </Stack>
     </>
 }
 
-export default User
+export default Course
