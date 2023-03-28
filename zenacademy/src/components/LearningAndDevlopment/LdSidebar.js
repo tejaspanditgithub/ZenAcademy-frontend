@@ -157,7 +157,7 @@ export default function AdminSidebar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem component={Link} to="/user/profile" onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem component={Link} to="/l&d/profile" onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleLogOut}>Sign Out</MenuItem>
         </Menu>
     );

@@ -53,6 +53,8 @@ export default function App() {
         </Route>
         <Route path='/admin' element={<AdminLayout/>}>
           <Route element={<PersistLogin/>}>
+            
+          <Route path='profile' element={<Profile/>}/>
             <Route element={<RequireAuth allowedRole={'admin'}/>}>
               <Route index element={<AdminDashboard/>}/>
               <Route path='user'>
@@ -70,6 +72,7 @@ export default function App() {
         </Route>
         <Route path='/l&d' element={<LdLayout/>}>
           <Route element={<PersistLogin/>}>
+          <Route path='profile' element={<Profile/>}/>
             <Route element={<RequireAuth allowedRole={'l&d'}/>}>
               <Route index element={<LdDashboard/>}/>
               <Route path='addLink/:id' element={<Addlink/>}/>
@@ -79,6 +82,7 @@ export default function App() {
         </Route>
         <Route path='/sgo' element={<SgoLayout/>}>
           <Route element={<PersistLogin/>}>
+          <Route path='profile' element={<Profile/>}/>
             <Route element={<RequireAuth allowedRole={'sgo'}/>}>
               <Route index element={<SgoDashboard/>}/>
               <Route path='assignCourse/:id' element={<AssignCourse/>}/>
