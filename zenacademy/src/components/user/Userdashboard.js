@@ -114,7 +114,7 @@ export default function Dashboard() {
                     justifyContent="center" columnSpacing={4} sx={{
                         // ml: '45px',
                     }}
-                    style={{marginTop:"10px"}}
+                    style={{marginLeft:"10px", marginTop:"10px"}}
                 >
                     {searchResults.map(course => (
             <CourseCard key={course._id} course={course} />

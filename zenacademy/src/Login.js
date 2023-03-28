@@ -88,6 +88,8 @@ export default function Login() {
 
     
     return (
+        <>
+        {err && <p style={{color:'red'}}>{err}</p>}
         <ThemeProvider theme={theme} >
             <Container component="main" maxWidth="xs" sx={{ backgroundColor: '#FAF5EF', borderRadius: '16px' }}>
                 <CssBaseline />
@@ -127,29 +129,21 @@ export default function Login() {
                             id="password"
                             value={login.password}
                             onChange={(e) => setLogin({...login,password:e.target.value})}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                            />
+                        
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                        >
+                            >
                             Sign In
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                        </Grid>
+                       
                     </Box>
                 </Box>
             </Container>
         </ThemeProvider>
+                            </>
     );
 }

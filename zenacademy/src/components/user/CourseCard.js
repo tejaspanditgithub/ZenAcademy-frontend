@@ -13,6 +13,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { IconButton, Stack } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const defaultBookmark={
   userName:"",
@@ -25,6 +26,10 @@ export default function ImgMediaCard(course) {
   const axiosPrivate = useAxiosPrivate(axiosUserPrivate);
   const [open, setOpen] = React.useState(false);
   const [sopen,setSOpen]=React.useState(false);
+  const navigate = useNavigate();
+  const location=useLocation();
+
+  
     
 const bookmark=async()=>{
   try{
@@ -101,7 +106,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
         </Typography> */}
       </CardContent>
       <CardActions>
-        <Button size="small">VIEW</Button>
+        <Button size="small" onClick={()=>navigate(`course/${course.course._id}`)}>VIEW</Button>
         <Button size="small"><BookmarkIcon color='#000000'
         onClick={bookmark}
         /></Button>

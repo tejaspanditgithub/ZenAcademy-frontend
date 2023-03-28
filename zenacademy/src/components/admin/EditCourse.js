@@ -143,7 +143,7 @@ export default function SimplePaper() {
     set_exeperience_error(false);
   };
 
-  const updatePanelMember = async (course, id) => {
+  const updateCourse = async (course, id) => {
     console.log("Update")
     
     try {
@@ -161,7 +161,7 @@ export default function SimplePaper() {
   const handleClick = async (e) => {
     e.preventDefault();
     
-      await updatePanelMember(course, id);
+      await updateCourse(course, id);
   }
 
   const changeHandler = (e) => {

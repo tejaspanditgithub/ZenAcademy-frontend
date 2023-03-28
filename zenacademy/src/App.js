@@ -25,6 +25,7 @@ import Course from './components/admin/Course';
 import AssignCourse from './components/sgo/AssignCourse'
 import EditCourse from'./components/admin/EditCourse';
 import RegisterCourse from './components/admin/RegisterCourse';
+import ViewCourse from './components/user/ViewCourse';
 
 
 export default function App() {
@@ -42,6 +43,11 @@ export default function App() {
               <Route path='courses' element={<Courses/>}/>
               <Route path='bookmark' element={<Bookmark/>}/>
               <Route path='report' element={<Myreport/>}/>
+              <Route path='profile' element={<Profile/>}/>
+              <Route path='course/:id' element={<ViewCourse/>}/>
+              <Route path='mylearning/course/:id'element={<ViewCourse/>}/>
+              <Route path='courses/course/:id'element={<ViewCourse/>}/>
+              <Route path='bookmark/course/:id'element={<ViewCourse/>}/>
             </Route>
           </Route>
         </Route>
@@ -66,6 +72,8 @@ export default function App() {
           <Route element={<PersistLogin/>}>
             <Route element={<RequireAuth allowedRole={'l&d'}/>}>
               <Route index element={<LdDashboard/>}/>
+              <Route path='addLink/:id' element={<Addlink/>}/>
+              <Route path='profile' element={<Profile/>}/>
             </Route>
           </Route>
         </Route>
@@ -77,6 +85,9 @@ export default function App() {
             </Route>
           </Route>
         </Route>
+        <Route path='unauthorized' element={<Unauthorized/>}/>
+        
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
 
     </div>
