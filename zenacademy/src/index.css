@@ -15,3 +15,43 @@ code {
 .main-component {
   background-image: 'url(https://www.thebluediamondgallery.com/wooden-tile/images/learning.jpg)';
 }
+
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  font-size: 30px;
+  justify-content: space-between;
+
+}
+
+.flex-item-left {
+  padding: 10px;
+  flex: 50%;
+}
+
+.flex-item-right {
+  padding: 10px;
+  flex: 50%;
+}
+
+.card-img-top{
+  width:600px;
+  height:400px;
+  margin-top: 4%; 
+  margin-left: 5%;
+}
+
+
+@media (max-width: 800px) {
+  .flex-item-right, .flex-item-left {
+    flex: 100%;
+  }
+  .card-img-top{
+    display: none;
+  }
+  .logIn-card{
+    margin-top: 20%;
+  }
+}
