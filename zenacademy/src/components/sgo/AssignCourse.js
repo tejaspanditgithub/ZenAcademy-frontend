@@ -241,9 +241,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
               <TableHead style={{ backgroundColor: "#EEEEEE" }}>
                 <TableRow>
                   <TableCell>Course Name</TableCell>
-                  <TableCell align="right">SGO</TableCell>
-                  <TableCell align="right">Assign</TableCell>
-                  <TableCell align="right">View Details</TableCell>
+                  <TableCell align="left">SGO</TableCell>
+                  <TableCell align="left">Assign</TableCell>
+                  <TableCell align="left">View Details</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -253,16 +253,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
                     key={course._id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row" className="User">
-                      <a>{course.CourseName}</a>
-                    </TableCell>
 
                     <TableCell align="left">{course.courseName}</TableCell>
                     
                     <TableCell align="left">{course.sgo}</TableCell>
 
                     <TableCell align="left"><Button variant="contained" onClick={()=>Assign(course._id)}>ASSIGN</Button></TableCell>
-                    <TableCell align="center">
+                    <TableCell align="left">
                       <Tooltip title="View Details">
                         <IconButton onClick={() => getDetails(course._id)}>
                           <VisibilityIcon style={{ padding: "0" }} />

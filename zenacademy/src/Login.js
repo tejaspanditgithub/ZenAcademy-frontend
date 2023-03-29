@@ -89,18 +89,42 @@ export default function Login() {
     
     return (
         <>
+        <div style={{backgroundImage:"url(/image1.jpg)", height:"660px" ,marginTop:"-70px"}}>
+
         {err && <p style={{color:'red'}}>{err}</p>}
+        <div
+        className="fadeIn first"
+        style={{ float: "left", position: "absolute" }}
+        >
+        <h2
+          style={{
+            marginTop: "200px",
+            marginLeft: "11%",
+            fontFamily: "PT Serif",
+            fontWeight: "bold",
+            letterSpacing: "0.5rem",
+            color: "rgb(255 19 8)",
+            fontSize:"50px"
+          }}
+        >
+          ZenAcademy
+        </h2>
+
+        
+      </div>
+      <div style={{marginLeft:"900px"}}>
+
         <ThemeProvider theme={theme} >
             <Container component="main" maxWidth="xs" sx={{ backgroundColor: '#FAF5EF', borderRadius: '16px' }}>
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
+                      marginTop: 8,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
                     }}
-                >
+                    >
                     <Avatar sx={{ m: 1 }}>
                         <LockOutlinedIcon />
                     </Avatar>
@@ -118,7 +142,7 @@ export default function Login() {
                             value={login.userName}
                             onChange={(e)=>setLogin({...login,userName:e.target.value})}
                             autoFocus
-                        />
+                            />
                         <TextField
                             margin="normal"
                             required
@@ -144,6 +168,8 @@ export default function Login() {
                 </Box>
             </Container>
         </ThemeProvider>
+                              </div>
+                              </div>
                             </>
     );
 }
