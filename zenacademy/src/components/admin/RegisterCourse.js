@@ -178,6 +178,9 @@ export default function RegisterCourse() {
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+  const goBack=()=>{
+    navigate('/admin/course')
+  }
 
   return (
     <>
@@ -274,6 +277,8 @@ export default function RegisterCourse() {
             </div>
           </div>
         </form>
+        <Button variant="outlined" style={{marginLeft:"20%", marginBottom:'30px'}} onClick={goBack} >Go Back</Button>
+      
       </Paper>
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

@@ -200,6 +200,10 @@ export default function SimplePaper() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  const goBack=()=>{
+    navigate('/admin/user')
+  }
+
   return (
     <>
       <IconButton style={{ marginRight: '80%' }} 
@@ -385,6 +389,7 @@ export default function SimplePaper() {
             </div>
           </div>
         </form>
+      <Button variant="outlined" style={{marginLeft:"20%", marginBottom:'30px'}} onClick={goBack} >Go Back</Button>
       </Paper>
       <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

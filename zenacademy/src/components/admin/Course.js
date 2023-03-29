@@ -156,6 +156,9 @@ const Course=()=>{
     setYes(id)
     handleModalOpen()
 }
+const goBack=()=>{
+  navigate('/admin')
+}
   
 
     return<>
@@ -165,10 +168,12 @@ const Course=()=>{
       </h3>
 
     <Box id="box">
+    <Button variant="outlined" style={{marginLeft:"10%"}} onClick={goBack} >Go Back</Button>
+      
         <Button
           variant="contained"
           id="btn"
-          style={{marginLeft:"10%"}}
+          style={{marginLeft:"10px"}}
           endIcon={<AddCircleRoundedIcon />}
           onClick={()=>{navigate('register')}}
         >

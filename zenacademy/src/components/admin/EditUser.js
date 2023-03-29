@@ -203,6 +203,8 @@ export default function SimplePaper() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  
+
   return (
     <>
       <IconButton style={{ marginRight: '80%' }} 
@@ -350,6 +352,7 @@ export default function SimplePaper() {
           </div>
 
         </form>
+        
       </Paper>
       <Stack spacing={2} sx={{ width: '100%' }}>
 
