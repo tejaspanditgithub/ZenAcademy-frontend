@@ -120,15 +120,7 @@ export default function Dashboard() {
             <CourseCard key={course._id} course={course} />
           ))}
 
-                    {/* <Grid item xs={12} sm={7} md={5} lg={3.5} >
-                        <Sgocard />
-                        </Grid>
-                    <Grid item xs={12} sm={7} md={5} lg={3.5} >
-                        <Sgocard />
-                    </Grid>
-                    <Grid item xs={12} sm={7} md={5} lg={3.5} >
-                        <Sgocard />
-                    </Grid> */}
+                    
 
                 </Grid>
             </Box>

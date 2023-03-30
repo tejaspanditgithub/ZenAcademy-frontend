@@ -34,7 +34,7 @@ export default function App() {
     <div>
       <Routes>
         <Route path='/login' element={<Login/>}/>
-
+        <Route path='/' element={<Login/>}/>
         <Route path='/employee' element={<Layout/>}>
           <Route element={<PersistLogin/>}>
             <Route element={<RequireAuth allowedRole={'employee'}/>}>

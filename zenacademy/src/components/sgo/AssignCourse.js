@@ -54,6 +54,7 @@ const Course=()=>{
     const axiosPrivate = useAxiosPrivate(axiosUserPrivate);
     const [details, setDetails] = React.useState([]);
     const [open, setOpen] = React.useState(false);
+    const [dopen, setdOpen] = React.useState(false);
     const [sopen,setSOpen]=React.useState(false);
     const navigate = useNavigate();
     const location=useLocation();
@@ -72,11 +73,17 @@ const Course=()=>{
   const handleModalOpen = () =>{
     setModalOpen(true);
 
+  }
+  const handledOpen = () =>{
+    setdOpen(true);
+
   }   
   const handleModalClose = () =>{
     setModalOpen(false);
   }
-
+  const handledClose = () =>{
+    setdOpen(false);
+  }
   const handleSClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -159,7 +166,7 @@ const Course=()=>{
   
         setDetails(currCourse);
   
-        handleOpen();
+        handledOpen();
       } catch (error) {
         console.log(error);
       }
@@ -183,7 +190,7 @@ const Assign=async(cid)=>{
     const response=await axiosPrivate.put(`/user/assignCourse`, JSON.stringify(assigned))
     console.log(response)
     if(response.data.success){
-      navigate('/sgo');
+      // navigate('/sgo');
       setOpen(true);
     }
     else if(response.status===209){
@@ -195,6 +202,10 @@ const Assign=async(cid)=>{
   }
   
 }
+
+const goBack=()=>{
+  navigate('/sgo')
+}
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -204,6 +215,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
       <h3 style={{ color: "#2C3333", fontSize: "25Px", textAlign: "center" }}>
         Course List
       </h3>
+
+      <Button variant="outlined" style={{marginLeft:"10%"}} onClick={goBack} >Go Back</Button>
+        
 
     <Box id="box" >
         
@@ -275,8 +289,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
         </Paper>
       </Container>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={dopen}
+        onClose={handledClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -287,7 +301,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
             component="h2"
             align="center"
           >
-            {details.name}'s Details
+            {details.courseName}'s Details
           </Typography>
           <CardContent>
             <Typography sx={{ mb: 1 }} color="text.secondary" gutterBottom>
